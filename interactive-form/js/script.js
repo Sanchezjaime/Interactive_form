@@ -5,8 +5,14 @@ const tShirttheme = document.querySelector('#design');
 const tShirtThemeElements = document.querySelectorAll('#design option');
 const tShirtColor = document.querySelector('#color');
 const tShirtColorElements = document.querySelectorAll('#color option');
+const activitySection = document.querySelector('.activities');
+const activities = document.querySelectorAll('.activities input')
+let activityTotalCost = 0;
 
 const option = document.createElement('option');
+let activityCost = document.createElement('activityCost');
+
+
 
 
 //basic info
@@ -56,3 +62,31 @@ tShirttheme.addEventListener('change', (e) => {
     }
   }
 });
+
+//activity Section
+//creates an element to display total activity cost
+activityCost.innerHTML = 'Total Cost';
+activitySection.appendChild(activityCost);
+//change event listener for activity Section
+activitySection.addEventListener('change', (e) => {
+  let target = event.target;
+  //gets the data-cost attribute value and changes data-cost string into a interger
+  let cost = parseInt(target.getAttribute('data-cost'), 10);
+  console.log(target);
+  console.log(cost);
+  console.log(typeof cost);
+  //gets the data-day-and-time getAttribute value
+  let dateAndTime = target.getAttribute('data-day-and-time');
+  console.log(dateAndTime);
+  console.log(typeof dateAndTime);
+
+  //adds and subtracts total costs
+  if(target.checked){
+    activityTotalCost = activityTotalCost += cost;
+    console.log(activityTotalCost);
+  } else {
+      activityTotalCost = activityTotalCost -= cost;
+      console.log(activityTotalCost);
+  }
+  activityCost.innerHTML = 'Total: $' + activityTotalCost;
+})
