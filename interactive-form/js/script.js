@@ -6,8 +6,11 @@ const tShirtThemeElements = document.querySelectorAll('#design option');
 const tShirtColor = document.querySelector('#color');
 const tShirtColorElements = document.querySelectorAll('#color option');
 const activitySection = document.querySelector('.activities');
-const activities = document.querySelectorAll('.activities input')
+const activities = document.querySelectorAll('.activities input');
+const paymentmethod = document.querySelector('#payment');
+const paymentOptions = document.querySelectorAll('#payment option');
 let activityTotalCost = 0;
+
 
 const option = document.createElement('option');
 let activityCost = document.createElement('activityCost');
@@ -76,10 +79,22 @@ activitySection.addEventListener('change', (e) => {
   console.log(cost);
   console.log(typeof cost);
   //gets the data-day-and-time getAttribute value
-  let dateAndTime = target.getAttribute('data-day-and-time');
-  console.log(dateAndTime);
-  console.log(typeof dateAndTime);
-
+  let activityDateAndTime = target.getAttribute('data-day-and-time');
+  console.log(activityDateAndTime);
+  console.log(typeof activityDateAndTime);
+  //for loop iterates checkbox inputs
+  for(let i = 0; i < activities.length; i++){
+    let activityTimes = activities[i].getAttribute('data-day-and-time');
+    console.log(activityTimes);
+    //checks for conflicting dates and times disables if conflicting
+    if(activityTimes === activityDateAndTime && target !== activities[i]){
+      if(target.checked){
+        activities[i].disabled = true;
+        } else {
+          activities[i].disabled = false;
+      }
+    }
+  }
   //adds and subtracts total costs
   if(target.checked){
     activityTotalCost = activityTotalCost += cost;
@@ -90,3 +105,10 @@ activitySection.addEventListener('change', (e) => {
   }
   activityCost.innerHTML = 'Total: $' + activityTotalCost;
 })
+
+
+//payment Section
+//hide the select payment payment payment option
+paymentOptions[0].style.display = 'none';
+//initially displays the credit card payment option
+paymentOptions[1].selected = true;
