@@ -7,8 +7,13 @@ const tShirtColor = document.querySelector('#color');
 const tShirtColorElements = document.querySelectorAll('#color option');
 const activitySection = document.querySelector('.activities');
 const activities = document.querySelectorAll('.activities input');
-const paymentmethod = document.querySelector('#payment');
+const paymentMethod = document.querySelector('#payment');
 const paymentOptions = document.querySelectorAll('#payment option');
+const creditCard = document.querySelector('#credit-card');
+const paypal = document.querySelector('#paypal');
+const bitcoin = document.querySelector('#bitcoin');
+const form = document.querySelector('form');
+
 let activityTotalCost = 0;
 
 
@@ -85,7 +90,7 @@ activitySection.addEventListener('change', (e) => {
   //for loop iterates checkbox inputs
   for(let i = 0; i < activities.length; i++){
     let activityTimes = activities[i].getAttribute('data-day-and-time');
-    console.log(activityTimes);
+    //console.log(activityTimes);
     //checks for conflicting dates and times disables if conflicting
     if(activityTimes === activityDateAndTime && target !== activities[i]){
       if(target.checked){
@@ -112,3 +117,126 @@ activitySection.addEventListener('change', (e) => {
 paymentOptions[0].style.display = 'none';
 //initially displays the credit card payment option
 paymentOptions[1].selected = true;
+paypal.style.display = 'none';
+bitcoin.style.display = 'none';
+paymentMethod.addEventListener('change', (e) => {
+  let target = event.target;
+  if(target.value === "credit card"){
+    creditCard.style.display = 'block';
+    paypal.style.display = 'none';
+    bitcoin.style.display = 'none';
+  } if(target.value === "paypal"){
+    paypal.style.display = 'block';
+    creditCard.style.display = 'none';
+    bitcoin.style.display = 'none';
+  } if(target.value === "bitcoin"){
+    bitcoin.style.display = 'block';
+    paypal.style.display = 'none';
+    creditCard.style.display = 'none';
+  }
+})
+
+//validation
+//name validation
+function validateName() {
+  const nameValue = userName.value;
+
+  if(nameValue.length > 0){
+    userName.style.borderColor = '';
+    return true;
+  } else{
+    userName.style.borderColor = 'red';
+    userName.focus();
+    return false;
+  }
+}
+//email validation
+const email = document.querySelector('#mail');
+function validateEmail() {
+  const emailValue = email.value;
+  if(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(emailValue)){
+    email.style.borderColor = '';
+    return true;
+  } else{
+    email.style.borderColor = 'red';
+    return false;
+  }
+}
+//activity validation
+
+function validateActivities() {
+  for(let i = 0; i < activities.length; i++){
+    if(activities[i].checked){
+      activitySection.style.color = '';
+      return true;
+    } else{
+      activitySection.style.color = 'red';
+      return false;
+    }
+  }
+}
+//credit card validation(if payment method is credit card) valid credit card number should be 16 digits
+function validateCreditCardNumber() {
+  const creditCardNumber = document.querySelector('#cc-num');
+  const yourCreditCardNumber = creditCardNumber.value;
+  if(paymentMethod.value === 'credit card'){
+    if(/^\d{16}$/.test(yourCreditCardNumber)){
+      creditCardNumber.style.borderColor = '';
+      return true;
+    } else {
+      creditCardNumber.style.borderColor = 'red';
+      return false;
+    }
+  }
+}
+//zip code valid zip code should be 5 digits
+function validateZipCode() {
+  const zipCode = document.querySelector('#zip');
+  const yourZip = zipCode.value;
+  if(paymentMethod.value === 'credit card'){
+    if(/^\d{5}$/.test(yourZip)){
+      zipCode.style.borderColor = '';
+      return true;
+    } else {
+      zipCode.style.borderColor = 'red';
+      return false;
+    }
+  }
+}
+
+//cvv valid cvv should be 3 digits
+function validateCvv() {
+  const cvv = document.querySelector('#cvv');
+  const yourCvv = cvv.value;
+  if(paymentMethod.value === 'credit card'){
+    if(/^\d{3}$/.test(yourCvv)){
+      cvv.style.borderColor = '';
+      return true;
+    } else {
+      cvv.style.borderColor = 'red';
+      return false;
+    }
+  }
+}
+
+form.addEventListener('submit', (e) => {
+  if(! validateName()){
+    e.preventDefault();
+  }
+  if(! validateEmail()){
+    e.preventDefault();
+  }
+  if(! validateActivities()){
+    e.preventDefault();
+  }
+  if(! validateCreditCardNumber()){
+    e.preventDefault();
+  }
+  if(! validateZipCode()){
+    e.preventDefault();
+  }
+  if(! validateCvv()){
+    e.preventDefault();
+  }
+
+})
