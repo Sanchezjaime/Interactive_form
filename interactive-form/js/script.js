@@ -1,6 +1,7 @@
 //global variables
 const userName = document.querySelector('#name');
 const otherJobRole = document.querySelector('#other-title');
+const jobRole = document.querySelector('#title');
 const tShirttheme = document.querySelector('#design');
 const tShirtThemeElements = document.querySelectorAll('#design option');
 const tShirtColor = document.querySelector('#color');
@@ -13,24 +14,26 @@ const creditCard = document.querySelector('#credit-card');
 const paypal = document.querySelector('#paypal');
 const bitcoin = document.querySelector('#bitcoin');
 const form = document.querySelector('form');
-
 let activityTotalCost = 0;
-
-
 const option = document.createElement('option');
 let activityCost = document.createElement('activityCost');
-
-
-
-
 //basic info
+
 //sets focus to the first text field on page upload
 window.onload = function () {
   userName.focus();
 }
 
-//hides "other" job role input
+//job role
+//hides "other" job role text inpu initially and only displays it when other is selected
 otherJobRole.style.display = 'none';
+jobRole.addEventListener('change', (e) => {
+  if(event.target.value === 'other'){
+    otherJobRole.style.display = 'block';
+  }else {
+    otherJobRole.style.display = 'none';
+  }
+})
 
 //T-shirt
 //hides "select theme" 'option' element in the 'design' menu
@@ -47,6 +50,7 @@ const hideColors = () => {
     tShirtColorElements[i].style.display = 'none';
   }
 };
+
 //changes the color field element to show the appropiate color for the tshirt Theme
 tShirttheme.addEventListener('change', (e) => {
   hideColors();
@@ -111,7 +115,6 @@ activitySection.addEventListener('change', (e) => {
   activityCost.innerHTML = 'Total: $' + activityTotalCost;
 })
 
-
 //payment Section
 //hide the select payment payment payment option
 paymentOptions[0].style.display = 'none';
@@ -140,7 +143,6 @@ paymentMethod.addEventListener('change', (e) => {
 //name validation
 function validateName() {
   const nameValue = userName.value;
-
   if(nameValue.length > 0){
     userName.style.borderColor = '';
     return true;
@@ -150,6 +152,7 @@ function validateName() {
     return false;
   }
 }
+
 //email validation
 const email = document.querySelector('#mail');
 function validateEmail() {
@@ -162,8 +165,8 @@ function validateEmail() {
     return false;
   }
 }
-//activity validation
 
+//activity validation
 function validateActivities() {
   for(let i = 0; i < activities.length; i++){
     if(activities[i].checked){
@@ -175,6 +178,7 @@ function validateActivities() {
     }
   }
 }
+
 //credit card validation(if payment method is credit card) valid credit card number should be 16 digits
 function validateCreditCardNumber() {
   const creditCardNumber = document.querySelector('#cc-num');
@@ -189,6 +193,7 @@ function validateCreditCardNumber() {
     }
   }
 }
+
 //zip code valid zip code should be 5 digits
 function validateZipCode() {
   const zipCode = document.querySelector('#zip');
@@ -219,6 +224,7 @@ function validateCvv() {
   }
 }
 
+//event listener on register button calls all validation functions
 form.addEventListener('submit', (e) => {
   if(! validateName()){
     e.preventDefault();
@@ -238,5 +244,4 @@ form.addEventListener('submit', (e) => {
   if(! validateCvv()){
     e.preventDefault();
   }
-
 })
