@@ -167,7 +167,7 @@ function validateActivities() {
     if(activities[i].checked){
       activitySection.style.color = '';
       return true;
-    } else{
+    } else {
       activitySection.style.color = 'red';
       return false;
     }
@@ -179,7 +179,7 @@ function validateCreditCardNumber() {
   const creditCardNumber = document.querySelector('#cc-num');
   const yourCreditCardNumber = creditCardNumber.value;
   if(paymentMethod.value === 'credit card'){
-    if(/^\d{16}$/.test(yourCreditCardNumber)){
+    if(/^\d{13,16}$/.test(yourCreditCardNumber)){
       creditCardNumber.style.borderColor = '';
       return true;
     } else {
