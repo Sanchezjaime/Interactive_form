@@ -20,8 +20,10 @@ let activityCost = document.createElement('activityCost');
 //basic info
 
 //sets focus to the first text field on page upload
+//hides colors for tshirt theme
 window.onload = function () {
   userName.focus();
+  hideColors();
 }
 
 //job role
@@ -84,13 +86,8 @@ activitySection.addEventListener('change', (e) => {
   let target = event.target;
   //gets the data-cost attribute value and changes data-cost string into a interger
   let cost = parseInt(target.getAttribute('data-cost'), 10);
-  console.log(target);
-  console.log(cost);
-  console.log(typeof cost);
   //gets the data-day-and-time getAttribute value
   let activityDateAndTime = target.getAttribute('data-day-and-time');
-  console.log(activityDateAndTime);
-  console.log(typeof activityDateAndTime);
   //for loop iterates checkbox inputs
   for(let i = 0; i < activities.length; i++){
     let activityTimes = activities[i].getAttribute('data-day-and-time');
@@ -107,10 +104,8 @@ activitySection.addEventListener('change', (e) => {
   //adds and subtracts total costs
   if(target.checked){
     activityTotalCost = activityTotalCost += cost;
-    console.log(activityTotalCost);
   } else {
       activityTotalCost = activityTotalCost -= cost;
-      console.log(activityTotalCost);
   }
   activityCost.innerHTML = 'Total: $' + activityTotalCost;
 })
