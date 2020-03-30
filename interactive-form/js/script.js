@@ -163,15 +163,17 @@ function validateEmail() {
 
 //activity validation
 function validateActivities() {
+  let flag = false;
   for(let i = 0; i < activities.length; i++){
     if(activities[i].checked){
       activitySection.style.color = '';
-      return true;
-    } else {
-      activitySection.style.color = 'red';
-      return false;
+      flag = true;
     }
   }
+  if(flag === false) {
+    activitySection.style.color = 'red';
+  }
+  return flag;
 }
 
 //credit card validation(if payment method is credit card) valid credit card number should be 16 digits
@@ -230,13 +232,13 @@ form.addEventListener('submit', (e) => {
   if(! validateActivities()){
     e.preventDefault();
   }
-  if(! validateCreditCardNumber()){
+  if(paymentMethod.value === 'credit card' && ! validateCreditCardNumber()){
     e.preventDefault();
   }
-  if(! validateZipCode()){
+  if(paymentMethod.value === 'credit card' &&! validateZipCode()){
     e.preventDefault();
   }
-  if(! validateCvv()){
+  if(paymentMethod.value === 'credit card' && ! validateCvv()){
     e.preventDefault();
   }
 })
